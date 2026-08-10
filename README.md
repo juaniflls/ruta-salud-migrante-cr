@@ -29,6 +29,33 @@ A partir de esas selecciones, la aplicación organiza el recorrido paso a paso y
 
 ---
 
+
+## 📸 Vista de la aplicación
+
+La versión beta ha sido probada como aplicación nativa en **iOS Simulator**. Estas capturas muestran parte del recorrido principal de la experiencia.
+
+<p align="center">
+  <img src="docs/screenshots/01-inicio.png" alt="Pantalla de inicio" width="30%">
+  <img src="docs/screenshots/02-condicion-migratoria.png" alt="Selección de condición migratoria" width="30%">
+  <img src="docs/screenshots/03-seleccion-sucursal.png" alt="Selección de sucursal CCSS" width="30%">
+</p>
+
+<p align="center">
+  <sub><b>Inicio</b> · <b>Condición migratoria</b> · <b>Selección de sucursal CCSS</b></sub>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/04-aseguramiento.png" alt="Preparación del aseguramiento" width="30%">
+  <img src="docs/screenshots/05-bancos.png" alt="Orientación bancaria" width="30%">
+  <img src="docs/screenshots/06-checklist-final.png" alt="Checklist y guía personalizada" width="30%">
+</p>
+
+<p align="center">
+  <sub><b>Aseguramiento</b> · <b>Opciones bancarias</b> · <b>Checklist final</b></sub>
+</p>
+
+---
+
 ## ✨ Funcionalidades principales
 
 ### 🧭 Ruta personalizada
