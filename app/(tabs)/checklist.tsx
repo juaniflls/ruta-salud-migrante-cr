@@ -49,6 +49,10 @@ export default function ChecklistScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <Pressable onPress={() => router.back()} style={styles.backButton}>
+        <Text style={styles.backText}>← Volver</Text>
+      </Pressable>
+
       <Text style={styles.brand}>RUTA SALUD MIGRANTE CR</Text>
 
       <View style={styles.hero}>
@@ -104,7 +108,9 @@ export default function ChecklistScreen() {
 
       <View style={[styles.statusCard, completos && styles.statusCardComplete]}>
         <Text style={styles.statusTitle}>
-          {completos ? '🎉 Su preparación está completa' : '🧭 Aún quedan elementos por preparar'}
+          {completos
+            ? '🎉 Su preparación está completa'
+            : '🧭 Aún quedan elementos por preparar'}
         </Text>
         <Text style={styles.statusText}>
           {completos
@@ -137,15 +143,30 @@ export default function ChecklistScreen() {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#F5F9FC' },
   content: { paddingTop: 60, paddingHorizontal: 20, paddingBottom: 50 },
+
+  backButton: {
+    alignSelf: 'flex-start',
+    paddingVertical: 4,
+    paddingRight: 12,
+    marginBottom: 18,
+  },
+  backText: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#1677A8',
+  },
+
   brand: { fontSize: 13, fontWeight: '800', letterSpacing: 1.4, color: '#1677A8', marginBottom: 20 },
   hero: { marginBottom: 20 },
   eyebrow: { fontSize: 11, fontWeight: '800', letterSpacing: 1, color: '#7A8798', marginBottom: 7 },
   title: { fontSize: 30, lineHeight: 37, fontWeight: '900', color: '#172033', marginBottom: 11 },
   description: { fontSize: 15, lineHeight: 23, color: '#637086' },
+
   summaryCard: { backgroundColor: '#E7F6FC', borderRadius: 22, padding: 18, marginBottom: 16 },
   summaryLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 1, color: '#5E7D8D', marginBottom: 4 },
   summaryValue: { fontSize: 17, lineHeight: 23, fontWeight: '900', color: '#12658D' },
   divider: { height: 1, backgroundColor: '#C8E6F2', marginVertical: 12 },
+
   checklistCard: { backgroundColor: '#FFFFFF', borderRadius: 21, padding: 12, borderWidth: 1, borderColor: '#E2EAF0', marginBottom: 16 },
   checkRow: { flexDirection: 'row', alignItems: 'center', borderRadius: 13, padding: 13, marginBottom: 5 },
   checkRowActive: { backgroundColor: '#EAF8F0' },
@@ -154,13 +175,16 @@ const styles = StyleSheet.create({
   check: { color: '#FFFFFF', fontSize: 17, fontWeight: '900' },
   checkText: { flex: 1, fontSize: 14, lineHeight: 20, fontWeight: '600', color: '#536174' },
   checkTextActive: { color: '#286A46', fontWeight: '800' },
+
   statusCard: { backgroundColor: '#FFF8E7', borderRadius: 18, padding: 18, marginBottom: 16 },
   statusCardComplete: { backgroundColor: '#EAF8F0' },
   statusTitle: { fontSize: 17, fontWeight: '900', color: '#344054', marginBottom: 7 },
   statusText: { fontSize: 14, lineHeight: 21, color: '#667085' },
+
   finalCard: { backgroundColor: '#172033', borderRadius: 21, padding: 19, marginBottom: 18 },
   finalTitle: { fontSize: 19, fontWeight: '900', color: '#FFFFFF', marginBottom: 10 },
   finalText: { fontSize: 14, lineHeight: 23, color: '#E5EBF3' },
+
   restartButton: { borderWidth: 1.5, borderColor: '#1677A8', borderRadius: 15, paddingVertical: 15, alignItems: 'center' },
   restartText: { fontSize: 14, fontWeight: '800', color: '#1677A8' },
 });

@@ -1,7 +1,7 @@
 import { Asset } from 'expo-asset';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Sharing from 'expo-sharing';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Alert,
   Linking,
@@ -12,9 +12,28 @@ import {
   View,
 } from 'react-native';
 
+import { SUCURSALES } from '@/data/sucursales';
+
 const FORMULARIO = require('../../assets/documents/solicitud-aseguramiento-migrante.doc');
 
 const CCSS_URL = 'https://www.ccss.sa.cr/tramites';
+
+function extraerPrimerTelefono(texto: string) {
+  const match = texto.match(/\d{4}-\d{4}/);
+  return match ? match[0].replace('-', '') : null;
+}
+
+function extraerCorreo(texto: string) {
+  const match = texto.match(
+    /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i
+  );
+  return match ? match[0] : null;
+}
+
+function extraerUrl(texto: string) {
+  const match = texto.match(/https?:\/\/[^\s]+/i);
+  return match ? match[0] : null;
+}
 
 export default function AseguramientoScreen() {
   const { provincia, condicion, sucursal } = useLocalSearchParams<{
@@ -24,6 +43,25 @@ export default function AseguramientoScreen() {
   }>();
 
   const [abriendoFormulario, setAbriendoFormulario] = useState(false);
+
+  const sucursalElegida = useMemo(
+    () =>
+      SUCURSALES.find(
+        (item) =>
+          item.nombre === sucursal &&
+          (!provincia || item.provincia === provincia)
+      ) ??
+      SUCURSALES.find((item) => item.nombre === sucursal),
+    [provincia, sucursal]
+  );
+
+  const correoSucursal = sucursalElegida
+    ? extraerCorreo(sucursalElegida.contacto)
+    : null;
+
+  const urlContactoSucursal = sucursalElegida
+    ? extraerUrl(sucursalElegida.contacto)
+    : null;
 
   const abrirFormulario = async () => {
     try {
@@ -63,6 +101,31 @@ export default function AseguramientoScreen() {
 
   const abrirCCSS = async () => {
     await Linking.openURL(CCSS_URL);
+  };
+
+  const abrirMapa = async () => {
+    if (!sucursalElegida?.mapa) return;
+    await Linking.openURL(sucursalElegida.mapa.trim());
+  };
+
+  const llamarSucursal = async () => {
+    if (!sucursalElegida) return;
+
+    const numero = extraerPrimerTelefono(sucursalElegida.telefono);
+    if (!numero) return;
+
+    await Linking.openURL(`tel:${numero}`);
+  };
+
+  const contactarSucursal = async () => {
+    if (correoSucursal) {
+      await Linking.openURL(`mailto:${correoSucursal}`);
+      return;
+    }
+
+    if (urlContactoSucursal) {
+      await Linking.openURL(urlContactoSucursal);
+    }
   };
 
   const continuarConCuenta = () => {
@@ -108,9 +171,8 @@ export default function AseguramientoScreen() {
         </Text>
 
         <Text style={styles.description}>
-          Ya eligió la sucursal de la CCSS. Ahora revise la documentación y
-          prepare el formulario de Solicitud de Aseguramiento Voluntario /
-          Migrante.
+          Ya eligió la sucursal de la CCSS. Aquí puede volver a consultar sus
+          datos mientras prepara el formulario y la documentación necesaria.
         </Text>
       </View>
 
@@ -122,7 +184,7 @@ export default function AseguramientoScreen() {
           </Text>
         </View>
 
-        <View style={styles.divider} />
+        <View style={styles.dividerBlue} />
 
         <View>
           <Text style={styles.summaryLabel}>🪪 CONDICIÓN MIGRATORIA</Text>
@@ -130,16 +192,79 @@ export default function AseguramientoScreen() {
             {condicion ?? 'No disponible'}
           </Text>
         </View>
+      </View>
 
-        <View style={styles.divider} />
+      {sucursalElegida ? (
+        <View style={styles.branchCard}>
+          <Text style={styles.branchEyebrow}>SUCURSAL ELEGIDA</Text>
 
-        <View>
-          <Text style={styles.summaryLabel}>🏥 SUCURSAL ELEGIDA</Text>
-          <Text style={styles.summaryValue}>
+          <Text style={styles.branchTitle}>
+            🏥 {sucursalElegida.nombre}
+          </Text>
+
+          <Text style={styles.branchRegion}>
+            🗺️ {sucursalElegida.region}
+          </Text>
+
+          <View style={styles.branchDivider} />
+
+          <Text style={styles.branchDetail}>
+            {sucursalElegida.horario}
+          </Text>
+
+          <Text style={styles.branchDetail}>
+            {sucursalElegida.telefono}
+          </Text>
+
+          {correoSucursal && (
+            <Text style={styles.branchDetail}>
+              ✉️ {correoSucursal}
+            </Text>
+          )}
+
+          {!correoSucursal && urlContactoSucursal && (
+            <Text style={styles.branchDetail}>
+              🌐 Formulario general de contacto de la CCSS
+            </Text>
+          )}
+
+          <View style={styles.branchActions}>
+            <Pressable
+              onPress={llamarSucursal}
+              style={styles.branchSecondaryButton}
+            >
+              <Text style={styles.branchSecondaryText}>📞 Llamar</Text>
+            </Pressable>
+
+            <Pressable
+              onPress={abrirMapa}
+              style={styles.branchSecondaryButton}
+            >
+              <Text style={styles.branchSecondaryText}>📍 Ver mapa</Text>
+            </Pressable>
+          </View>
+
+          {(correoSucursal || urlContactoSucursal) && (
+            <Pressable
+              onPress={contactarSucursal}
+              style={styles.branchContactButton}
+            >
+              <Text style={styles.branchContactText}>
+                {correoSucursal
+                  ? '✉️ Escribir correo electrónico'
+                  : '🌐 Abrir formulario de contacto'}
+              </Text>
+            </Pressable>
+          )}
+        </View>
+      ) : (
+        <View style={styles.branchFallback}>
+          <Text style={styles.branchFallbackTitle}>🏥 Sucursal elegida</Text>
+          <Text style={styles.branchFallbackText}>
             {sucursal ?? 'No disponible'}
           </Text>
         </View>
-      </View>
+      )}
 
       <View style={styles.formCard}>
         <Text style={styles.formEyebrow}>FORMULARIO DE LA CCSS</Text>
@@ -181,7 +306,9 @@ export default function AseguramientoScreen() {
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>🧭 ¿Qué información le solicitarán?</Text>
+        <Text style={styles.cardTitle}>
+          🧭 ¿Qué información le solicitarán?
+        </Text>
 
         {[
           '👤 Nombre, nacionalidad e identificación.',
@@ -309,7 +436,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E7F6FC',
     borderRadius: 22,
     padding: 18,
-    marginBottom: 16,
+    marginBottom: 15,
   },
 
   summaryLabel: {
@@ -327,10 +454,117 @@ const styles = StyleSheet.create({
     color: '#12658D',
   },
 
-  divider: {
+  dividerBlue: {
     height: 1,
     backgroundColor: '#C8E6F2',
     marginVertical: 13,
+  },
+
+  branchCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 21,
+    padding: 18,
+    borderWidth: 1.5,
+    borderColor: '#C9E1EB',
+    marginBottom: 15,
+  },
+
+  branchEyebrow: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
+    color: '#4E7E63',
+    marginBottom: 6,
+  },
+
+  branchTitle: {
+    fontSize: 21,
+    lineHeight: 27,
+    fontWeight: '900',
+    color: '#172033',
+    marginBottom: 4,
+  },
+
+  branchRegion: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: '#6C7788',
+  },
+
+  branchDivider: {
+    height: 1,
+    backgroundColor: '#EDF1F4',
+    marginVertical: 14,
+  },
+
+  branchDetail: {
+    fontSize: 14,
+    lineHeight: 21,
+    color: '#586579',
+    marginBottom: 9,
+  },
+
+  branchActions: {
+    flexDirection: 'row',
+    gap: 9,
+    marginTop: 5,
+  },
+
+  branchSecondaryButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#BFD8E4',
+    backgroundColor: '#F8FCFE',
+    borderRadius: 12,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+
+  branchSecondaryText: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#1677A8',
+  },
+
+  branchContactButton: {
+    borderWidth: 1,
+    borderColor: '#BFD8E4',
+    backgroundColor: '#EAF7FC',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginTop: 9,
+  },
+
+  branchContactText: {
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: '800',
+    textAlign: 'center',
+    color: '#12658D',
+  },
+
+  branchFallback: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 21,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: '#E2EAF0',
+    marginBottom: 15,
+  },
+
+  branchFallbackTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#7A8798',
+    marginBottom: 5,
+  },
+
+  branchFallbackText: {
+    fontSize: 19,
+    fontWeight: '900',
+    color: '#172033',
   },
 
   formCard: {
