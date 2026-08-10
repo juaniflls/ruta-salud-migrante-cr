@@ -1,6 +1,4 @@
-from pathlib import Path
-
-readme = r'''<div align="center">
+<div align="center">
 
 <img src="assets/images/ruta-salud-migrante-logo.png" alt="Ruta Salud Migrante CR" width="230">
 
@@ -128,3 +126,173 @@ Preparación del aseguramiento
 Organizaciones de apoyo
    ↓
 Checklist y guía personalizada
+```
+
+---
+
+## 🛠️ Tecnologías
+
+| Tecnología | Uso |
+|---|---|
+| **React Native** | Desarrollo de la interfaz móvil |
+| **Expo** | Entorno, compilación y herramientas nativas |
+| **Expo Router** | Navegación basada en archivos |
+| **TypeScript** | Tipado y estructura del proyecto |
+| **Expo Asset** | Manejo de documentos incluidos en la app |
+| **Expo Sharing** | Apertura y compartición del formulario |
+| **Xcode / iOS Simulator** | Pruebas nativas en iOS |
+| **EAS** | Configuración para builds y distribución |
+| **Airtable** | Fuente estructurada utilizada durante el desarrollo y curación de datos |
+
+---
+
+## 📂 Estructura principal
+
+```text
+ruta-salud-migrante-cr/
+├── app/
+│   └── (tabs)/
+│       ├── index.tsx
+│       ├── condicion.tsx
+│       ├── ruta.tsx
+│       ├── tramite.tsx
+│       ├── subtramite.tsx
+│       ├── sucursal.tsx
+│       ├── aseguramiento.tsx
+│       ├── bancos.tsx
+│       ├── organizaciones.tsx
+│       └── checklist.tsx
+├── assets/
+│   ├── documents/
+│   └── images/
+├── data/
+│   ├── bancos.ts
+│   ├── organizaciones.ts
+│   ├── rutas.ts
+│   ├── subtramites.ts
+│   ├── sucursales.ts
+│   └── tramites.ts
+├── app.json
+├── eas.json
+├── metro.config.js
+└── package.json
+```
+
+---
+
+## 🚀 Ejecutar localmente
+
+### Requisitos
+
+- Node.js.
+- npm.
+- Expo.
+- Para iOS nativo: macOS + Xcode.
+- Para Android nativo: Android Studio o un dispositivo compatible.
+
+### Instalar dependencias
+
+```bash
+npm install
+```
+
+### Ejecutar con Expo
+
+```bash
+npx expo start
+```
+
+### Compilar y abrir en iOS Simulator
+
+```bash
+npx expo run:ios
+```
+
+### Verificar la configuración pública de Expo
+
+```bash
+npx expo config --type public
+```
+
+---
+
+## 🧪 Estado actual
+
+La versión beta ya ha sido probada como aplicación nativa en **iOS Simulator**, incluyendo:
+
+- Ícono nativo.
+- Splash screen.
+- Navegación completa.
+- Selección de provincia y condición migratoria.
+- Trámites y subtrámites.
+- Selección de sucursal.
+- Datos de contacto y mapas.
+- Formulario de aseguramiento.
+- Información bancaria.
+- Organizaciones de apoyo.
+- Checklist final.
+
+El proyecto continúa en una fase de **QA, revisión de contenido y preparación para distribución de prueba**.
+
+---
+
+## 📚 Datos y fuentes
+
+La información incorporada en la aplicación se ha estructurado a partir de fuentes públicas y oficiales consultadas durante el desarrollo del proyecto, entre ellas:
+
+- Caja Costarricense de Seguro Social (CCSS).
+- Dirección General de Migración y Extranjería (DGME).
+- Entidades bancarias incluidas en la aplicación.
+- Organizaciones de apoyo incorporadas en la guía.
+- Información documental recopilada y organizada para el proyecto.
+
+La disponibilidad, requisitos, horarios, procedimientos y canales institucionales pueden cambiar. Antes de realizar un trámite, la persona usuaria debe **verificar la información directamente con la institución competente**.
+
+---
+
+## ⚠️ Aviso importante
+
+Ruta Salud Migrante CR:
+
+- No representa oficialmente a la CCSS, DGME, bancos, universidades u organizaciones incluidas.
+- No constituye asesoría legal, migratoria, financiera ni médica.
+- No garantiza elegibilidad para trámites, servicios, productos bancarios o aseguramiento.
+- No sustituye los canales oficiales.
+- Está diseñada como una herramienta educativa y de orientación.
+
+---
+
+## 🎯 Propósito
+
+El proyecto busca explorar cómo el **diseño de información, la tecnología y la estructuración de datos** pueden reducir barreras de acceso a información pública y facilitar recorridos institucionales complejos.
+
+Se desarrolla en el contexto de un **Trabajo Comunal Universitario (TCU)** y como proyecto de aplicación de herramientas digitales a problemas de acceso, orientación y servicios públicos.
+
+---
+
+## 👨‍💻 Autor
+
+**Juan Ignacio Garbanzo Fallas**
+
+Ciencia Política · Economía · Ciencia de Datos  
+Costa Rica 🇨🇷
+
+GitHub: [@juaniflls](https://github.com/juaniflls)
+
+---
+
+## 📌 Estado del repositorio
+
+> **Beta — en desarrollo activo**
+
+La estructura, contenidos, interfaces y fuentes pueden continuar cambiando durante las etapas de revisión y validación.
+
+---
+
+<div align="center">
+
+### Ruta Salud Migrante CR
+
+**Tecnología aplicada a la orientación, el acceso a información y la inclusión.**
+
+</div>
