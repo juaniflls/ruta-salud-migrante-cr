@@ -1,50 +1,130 @@
-# Welcome to your Expo app 👋
+from pathlib import Path
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+readme = r'''<div align="center">
 
-## Get started
+<img src="assets/images/ruta-salud-migrante-logo.png" alt="Ruta Salud Migrante CR" width="230">
 
-1. Install dependencies
+# Ruta Salud Migrante CR
 
-   ```bash
-   npm install
-   ```
+### Orientación digital para personas migrantes en Costa Rica
 
-2. Start the app
+Aplicación móvil desarrollada con **React Native, Expo y TypeScript** para organizar, en una sola ruta de consulta, información sobre condición migratoria, trámites, sucursales de la CCSS, aseguramiento, opciones bancarias y organizaciones de apoyo.
 
-   ```bash
-   npx expo start
-   ```
+**Estado del proyecto:** Beta funcional · Proyecto académico / TCU · Costa Rica 🇨🇷
 
-In the output, you'll find options to open the app in a
+</div>
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 📱 Sobre el proyecto
 
-## Get a fresh project
+**Ruta Salud Migrante CR** busca facilitar el acceso a información dispersa que una persona migrante puede necesitar al orientarse sobre trámites y servicios en Costa Rica.
 
-When you're ready, run:
+La aplicación construye una **ruta personalizada de orientación** a partir de dos decisiones iniciales:
 
-```bash
-npm run reset-project
-```
+1. La provincia en la que se encuentra la persona.
+2. Su condición migratoria.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+A partir de esas selecciones, la aplicación organiza el recorrido paso a paso y presenta únicamente la información relevante para el perfil consultado.
 
-## Learn more
+> La aplicación es una herramienta de orientación. No sustituye la información, valoración, resolución ni atención oficial de las instituciones competentes.
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## ✨ Funcionalidades principales
 
-## Join the community
+### 🧭 Ruta personalizada
 
-Join our community of developers creating universal apps.
+La aplicación organiza la consulta según:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Provincia.
+- Condición migratoria.
+- Trámites aplicables.
+- Subtrámites relacionados.
+- Sucursal de la CCSS seleccionada.
+- Preparación para aseguramiento.
+- Necesidad de cuenta bancaria.
+- Organizaciones de apoyo.
+- Checklist final.
+
+### 🪪 Orientación migratoria
+
+Actualmente contempla cuatro perfiles principales:
+
+- Solicitante de refugio.
+- Persona refugiada.
+- Migrante regular permanente.
+- Migrante sin trámite o con condición temporal.
+
+Cada perfil conduce a información y trámites relacionados con su situación.
+
+### 🏥 Sucursales de la CCSS
+
+La aplicación incorpora información de **83 sucursales** distribuidas en las siete provincias de Costa Rica.
+
+Para cada sucursal, cuando la información está disponible, se muestran:
+
+- Nombre.
+- Región.
+- Horario.
+- Teléfonos.
+- Correo electrónico o formulario general de contacto.
+- Ubicación en mapa.
+- Acciones directas para llamar, escribir o abrir la ubicación.
+
+La persona puede seleccionar una sucursal y conservar sus datos visibles durante el paso de preparación del aseguramiento.
+
+### 🛡️ Preparación para aseguramiento
+
+La aplicación incorpora el formulario de **Solicitud de Aseguramiento Voluntario / Migrante** y permite:
+
+- Abrir o guardar el formulario.
+- Revisar información necesaria para completarlo.
+- Consultar los datos de la sucursal elegida.
+- Acceder al sitio oficial de la CCSS para verificar información.
+
+### 🏦 Orientación bancaria
+
+Incluye información comparativa de cuatro entidades bancarias:
+
+- Banco Nacional de Costa Rica.
+- Banco Popular y de Desarrollo Comunal.
+- Banco de Costa Rica.
+- BAC.
+
+Se presentan requisitos generales, consideraciones para personas extranjeras, información oficial y canales de contacto.
+
+### 🤝 Organizaciones de apoyo
+
+La guía también incorpora organizaciones que pueden brindar orientación o acompañamiento adicional, incluyendo:
+
+- Clínica de Refugio, Migración y Protección Internacional — Universidad de Costa Rica.
+- Servicio Jesuita para Migrantes Costa Rica.
+- Consultorio jurídico / servicios de apoyo universitario incorporados en la base del proyecto.
+
+### ✅ Checklist final
+
+Al finalizar el recorrido, la aplicación genera una guía personalizada con los elementos seleccionados y permite marcar documentos o pasos preparados antes de continuar con las gestiones correspondientes.
+
+---
+
+## 🧩 Flujo de la aplicación
+
+```text
+Provincia
+   ↓
+Condición migratoria
+   ↓
+Ruta de orientación
+   ↓
+Trámites y subtrámites
+   ↓
+Selección de sucursal CCSS
+   ↓
+Preparación del aseguramiento
+   ↓
+¿Necesita cuenta bancaria?
+   ↓
+Organizaciones de apoyo
+   ↓
+Checklist y guía personalizada
