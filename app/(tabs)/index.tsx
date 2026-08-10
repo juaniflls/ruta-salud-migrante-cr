@@ -1,98 +1,284 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const PROVINCIAS = [
+  'San José',
+  'Alajuela',
+  'Cartago',
+  'Heredia',
+  'Guanacaste',
+  'Puntarenas',
+  'Limón',
+];
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const [provincia, setProvincia] = useState<string | null>(null);
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const continuar = () => {
+    if (!provincia) return;
+
+    router.push({
+      pathname: '/(tabs)/condicion',
+      params: {
+        provincia,
+      },
+    });
+  };
+
+  return (
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.hero}>
+        <Text style={styles.brand}>RUTA SALUD MIGRANTE CR</Text>
+
+        <Text style={styles.title}>Encuentre su ruta de orientación</Text>
+
+        <Text style={styles.description}>
+          Consulte información organizada según su provincia y condición
+          migratoria para orientarse sobre trámites y acceso al aseguramiento
+          en Costa Rica.
+        </Text>
+      </View>
+
+      <View style={styles.card}>
+        <View style={styles.stepHeader}>
+          <View style={styles.stepCircle}>
+            <Text style={styles.stepNumber}>1</Text>
+          </View>
+
+          <View style={styles.stepTextContainer}>
+            <Text style={styles.stepLabel}>PRIMER PASO</Text>
+
+            <Text style={styles.question}>
+              📍 ¿En cuál provincia se encuentra?
+            </Text>
+          </View>
+        </View>
+
+        <Text style={styles.helperText}>
+          Seleccione una provincia para comenzar.
+        </Text>
+
+        <View style={styles.provinceList}>
+          {PROVINCIAS.map((item) => {
+            const selected = provincia === item;
+
+            return (
+              <Pressable
+                key={item}
+                onPress={() => setProvincia(item)}
+                style={[
+                  styles.provinceButton,
+                  selected && styles.provinceButtonSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.provinceText,
+                    selected && styles.provinceTextSelected,
+                  ]}
+                >
+                  {selected ? '✓ ' : ''}
+                  {item}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        <Pressable
+          disabled={!provincia}
+          onPress={continuar}
+          style={[
+            styles.continueButton,
+            !provincia && styles.continueButtonDisabled,
+          ]}
+        >
+          <Text
+            style={[
+              styles.continueButtonText,
+              !provincia && styles.continueButtonTextDisabled,
+            ]}
+          >
+            Continuar →
+          </Text>
+        </Pressable>
+      </View>
+
+      <Text style={styles.footer}>
+        💙 Información para facilitar el acceso a servicios de salud y
+        aseguramiento.
+      </Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  screen: {
+    flex: 1,
+    backgroundColor: '#F5F9FC',
+  },
+
+  content: {
+    paddingTop: 70,
+    paddingHorizontal: 20,
+    paddingBottom: 50,
+  },
+
+  hero: {
+    marginBottom: 28,
+  },
+
+  brand: {
+    fontSize: 13,
+    fontWeight: '800',
+    letterSpacing: 1.4,
+    color: '#1677A8',
+    marginBottom: 12,
+  },
+
+  title: {
+    fontSize: 34,
+    lineHeight: 40,
+    fontWeight: '800',
+    color: '#172033',
+    marginBottom: 14,
+  },
+
+  description: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#5A6578',
+  },
+
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 24,
+    padding: 22,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+
+  stepHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    marginBottom: 12,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+
+  stepCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#DDF3FC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 14,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+
+  stepNumber: {
+    fontSize: 19,
+    fontWeight: '800',
+    color: '#1677A8',
+  },
+
+  stepTextContainer: {
+    flex: 1,
+  },
+
+  stepLabel: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1.1,
+    color: '#7A8798',
+    marginBottom: 3,
+  },
+
+  question: {
+    fontSize: 19,
+    lineHeight: 25,
+    fontWeight: '700',
+    color: '#172033',
+  },
+
+  helperText: {
+    fontSize: 14,
+    color: '#6C7788',
+    marginBottom: 18,
+  },
+
+  provinceList: {
+    gap: 10,
+  },
+
+  provinceButton: {
+    borderWidth: 1.5,
+    borderColor: '#DDE5EC',
+    backgroundColor: '#FAFCFD',
+    borderRadius: 14,
+    paddingVertical: 15,
+    paddingHorizontal: 17,
+  },
+
+  provinceButtonSelected: {
+    borderColor: '#1677A8',
+    backgroundColor: '#EAF7FC',
+  },
+
+  provinceText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#344054',
+  },
+
+  provinceTextSelected: {
+    color: '#12658D',
+    fontWeight: '700',
+  },
+
+  continueButton: {
+    marginTop: 22,
+    backgroundColor: '#1677A8',
+    borderRadius: 15,
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+
+  continueButtonDisabled: {
+    backgroundColor: '#E2E7EC',
+  },
+
+  continueButtonText: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#FFFFFF',
+  },
+
+  continueButtonTextDisabled: {
+    color: '#9CA5B1',
+  },
+
+  footer: {
+    textAlign: 'center',
+    fontSize: 13,
+    lineHeight: 19,
+    color: '#768193',
+    marginTop: 24,
+    paddingHorizontal: 20,
   },
 });
