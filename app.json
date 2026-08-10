@@ -7,18 +7,18 @@
     "icon": "./assets/images/app-icon.png",
     "scheme": "rutasaludmigrantecr",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "icon": "./assets/images/app-icon.png"
+      "icon": "./assets/images/app-icon.png",
+      "bundleIdentifier": "cr.rutasaludmigrante.app"
     },
     "android": {
+      "package": "cr.rutasaludmigrante.app",
       "adaptiveIcon": {
         "backgroundColor": "#F5F9FC",
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "monochromeImage": "./assets/images/monochrome-icon.png"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
@@ -41,6 +41,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e10ac7fc-b87d-4cf8-86f1-371c7ef1ce5c"
+      }
     }
   }
 }
