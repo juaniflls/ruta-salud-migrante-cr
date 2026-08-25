@@ -43,6 +43,20 @@ export default function ChecklistScreen() {
 
   const completos = marcados.length === items.length;
 
+  const abrirGuia = () => {
+    router.push({
+      pathname: '/(tabs)/guia',
+      params: {
+        provincia,
+        condicion,
+        sucursal,
+        cuenta,
+        banco,
+        marcados: JSON.stringify(marcados),
+      },
+    });
+  };
+
   return (
     <ScrollView
       style={styles.screen}
@@ -122,12 +136,15 @@ export default function ChecklistScreen() {
       <View style={styles.finalCard}>
         <Text style={styles.finalTitle}>💙 Su guía personalizada</Text>
         <Text style={styles.finalText}>
-          Provincia: {provincia ?? 'No disponible'}
-          {'\n'}Condición migratoria: {condicion ?? 'No disponible'}
-          {'\n'}Sucursal CCSS: {sucursal ?? 'No disponible'}
-          {'\n'}Estado de cuenta: {cuenta === 'si' ? 'Ya disponible' : 'Requiere gestión o apertura de cuenta'}
-          {banco && banco !== 'No seleccionado' ? `\nBanco consultado: ${banco}` : ''}
+          Ya reunimos las decisiones de esta consulta. Abra su guía final para
+          ver en un solo lugar su perfil, los trámites y procesos aplicables,
+          la sucursal elegida, la información de aseguramiento, su decisión
+          bancaria y las organizaciones de apoyo.
         </Text>
+
+        <Pressable onPress={abrirGuia} style={styles.guideButton}>
+          <Text style={styles.guideButtonText}>Ver mi guía completa →</Text>
+        </Pressable>
       </View>
 
       <Pressable
@@ -184,6 +201,8 @@ const styles = StyleSheet.create({
   finalCard: { backgroundColor: '#172033', borderRadius: 21, padding: 19, marginBottom: 18 },
   finalTitle: { fontSize: 19, fontWeight: '900', color: '#FFFFFF', marginBottom: 10 },
   finalText: { fontSize: 14, lineHeight: 23, color: '#E5EBF3' },
+  guideButton: { marginTop: 15, backgroundColor: '#FFFFFF', borderRadius: 13, paddingVertical: 13, alignItems: 'center' },
+  guideButtonText: { fontSize: 14, fontWeight: '900', color: '#1677A8' },
 
   restartButton: { borderWidth: 1.5, borderColor: '#1677A8', borderRadius: 15, paddingVertical: 15, alignItems: 'center' },
   restartText: { fontSize: 14, fontWeight: '800', color: '#1677A8' },
